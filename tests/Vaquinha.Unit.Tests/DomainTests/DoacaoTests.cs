@@ -52,6 +52,22 @@ namespace Vaquinha.Unit.Tests.DomainTests
             // Assert
             doacao.Valor.Should().Be(6, because: "valor com taxa de 20%");
         }
+        //tentativa de adicionar parcelado em 2x
+        [Fact]
+        [Trait("Doacao", "Doacao_UsuarioQuerParcelar_DoacaoValida")]
+        public void Doacao_UsuarioQuerParcelar_DoacaoValida()
+        {
+            // Arrange
+            var doacao = _doacaoFixture.DoacaoValida(false, 5, false, false, true);
+            doacao.AdicionarEnderecoCobranca(_enderecoFixture.EnderecoValido());
+            doacao.AdicionarFormaPagamento(_cartaoCreditoFixture.CartaoCreditoValido());
+
+            // Act
+            var valido = doacao.Valido();
+
+            // Assert
+            doacao.Valor.Should().Be(2.5, because: "valor parcelado em 2 vezes");
+        }
 
         [Fact]
         [Trait("Doacao", "Doacao_DadosPessoaisInvalidos_DoacaoInvalida")]

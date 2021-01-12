@@ -9,15 +9,17 @@ namespace Vaquinha.Domain.Entities
         private Doacao() { }
 
         public Doacao(Guid id, Guid dadosPessoaisId, Guid enderecoCobrancaId, double valor,
-                      Pessoa dadosPessoais, CartaoCredito formaPagamento, Endereco enderecoCobranca, bool aceitaTaxa = false)
+                      Pessoa dadosPessoais, CartaoCredito formaPagamento, Endereco enderecoCobranca, bool aceitaTaxa = false, bool querParcelar = false)
         {
             Id = id;
             DataHora = DateTime.Now;
 
             DadosPessoaisId = dadosPessoaisId;
             EnderecoCobrancaId = enderecoCobrancaId;
-            //se o aceitataxa for verdade entao ele adiciona a taxa de 20% em cima de valor, se nao ele devolve apenas o valor
+            //se o aceitaTaxa for verdade entao ele adiciona a taxa de 20% em cima de valor, se nao ele devolve o valor
             Valor = aceitaTaxa ? valor * 1.2 : valor;
+            //se o querParcelar for escolhido entao ele divide o valor atual por 2
+            Valor = querParcelar ? valor / 2 : valor;
 
             DadosPessoais = dadosPessoais;
             FormaPagamento = formaPagamento;
